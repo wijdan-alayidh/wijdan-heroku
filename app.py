@@ -7,7 +7,7 @@ import json
 from flask_cors import CORS
 
 from models import setup_db, db_drop_and_create_all, Actors, Movies
-# from auth.auth import AuthError, requires_auth
+from auth.auth import AuthError, requires_auth
 
 def create_app(test_config=None):
 
@@ -29,9 +29,8 @@ def create_app(test_config=None):
 
     ## GET Endpoint to show all actors data
     @app.route('/actors', methods=['GET'])
-    # @requires_auth('get:actors')
-    # def get_actors(jwt):
-    def get_actors():
+    @requires_auth('get:actors')
+    def get_actors(jwt):
 
         actors = Actors.query.all()
 
@@ -53,9 +52,8 @@ def create_app(test_config=None):
 
     ## POST Endpoint to post new actor into database
     @app.route('/actors', methods=['POST'])
-    # @requires_auth('post:actors')
-    # def post_new_actors(jwt):
-    def post_new_actors():
+    @requires_auth('post:actors')
+    def post_new_actors(jwt):
 
         # At first get the json body from request
         body = request.get_json()
@@ -80,9 +78,8 @@ def create_app(test_config=None):
 
     ## GET Endpoint to show specific actor data 
     @app.route('/actors/<int:actor_id>', methods=['GET'])
-    # @requires_auth('get:actors')
-    def get_individual_actor(actor_id):
-    # def get_individual_actor(jwt,actor_id):
+    @requires_auth('get:actors')
+    def get_individual_actor(jwt,actor_id):
 
         # get the data about the actor based on the actor id
         actor = Actors.query.filter(Actors.id == actor_id).one_or_none()
@@ -104,9 +101,8 @@ def create_app(test_config=None):
 
     ## DELETE Endpoint to delete actor from the database based on the actor id
     @app.route('/actors/<int:actor_id>', methods=['DELETE'])
-    # @requires_auth('delete:actors')
-    # def delete_actor(jwt,actor_id):
-    def delete_actor(actor_id):
+    @requires_auth('delete:actors')
+    def delete_actor(jwt,actor_id):
         
         # get the data about the actor based on the actor id
         actor = Actors.query.filter(Actors.id == actor_id).one_or_none()
@@ -130,9 +126,8 @@ def create_app(test_config=None):
 
     ## PATCH Endpoint to update data of specific actor based on actor id
     @app.route('/actors/<int:actor_id>', methods=['PATCH'])
-    # @requires_auth('patch:actors')
-    # def update_actor(jwt,actor_id):
-    def update_actor(actor_id):
+    @requires_auth('patch:actors')
+    def update_actor(jwt,actor_id):
 
         # get the data about the actor based on the actor id
         actor = Actors.query.filter(Actors.id == actor_id).one_or_none()
@@ -174,9 +169,8 @@ def create_app(test_config=None):
 
     ##  GET Endpoint to show the all available movies data
     @app.route('/movies', methods=['GET'])
-    # @requires_auth('get:movies')
-    # def get_movies(jwt):
-    def get_movies():
+    @requires_auth('get:movies')
+    def get_movies(jwt):
         
         # import all available data about movies in database
         movies = Movies.query.all()
@@ -199,9 +193,8 @@ def create_app(test_config=None):
 
     ## POST Endpoint to insert new movie into the database
     @app.route('/movies', methods=['POST'])
-    # @requires_auth('post:movies')
-    # def post_movie(jwt):
-    def post_movie():
+    @requires_auth('post:movies')
+    def post_movie(jwt):
 
         # get the json object form the request body
         body = request.get_json()
@@ -225,9 +218,8 @@ def create_app(test_config=None):
 
     ## GET Endpoint to show specific movie data 
     @app.route('/movies/<int:movie_id>', methods=['GET'])
-    # @requires_auth('get:movies')
-    # def get_individual_movie(jwt,movie_id):
-    def get_individual_movie(movie_id):
+    @requires_auth('get:movies')
+    def get_individual_movie(jwt,movie_id):
 
         # get the data about the movie based on the movie id
         movie = Movies.query.filter(Movies.id == movie_id).one_or_none()
@@ -249,9 +241,8 @@ def create_app(test_config=None):
     
     ## DELETE Endpoint to delete movie from the database based on the movie id
     @app.route('/movies/<int:movie_id>', methods=['DELETE'])
-    # @requires_auth('delete:movies')
-    # def delete_movie(jwt,movie_id):
-    def delete_movie(movie_id):
+    @requires_auth('delete:movies')
+    def delete_movie(jwt,movie_id):
 
         # get the data about the movie based on the movie id
         movie = Movies.query.filter(Movies.id == movie_id).one_or_none()
@@ -275,9 +266,8 @@ def create_app(test_config=None):
 
     ## PATCH Endpoint to update data of specific movie based on movie id
     @app.route('/movies/<int:movie_id>', methods=['PATCH'])
-    # @requires_auth('patch:movies')
-    # def update_movie(jwt,movie_id):
-    def update_movie(movie_id):
+    @requires_auth('patch:movies')
+    def update_movie(jwt,movie_id):
 
         # get the data about the movie based on the movie id
         movie = Movies.query.filter(Movies.id == movie_id).one_or_none()
@@ -314,22 +304,22 @@ def create_app(test_config=None):
     ##   Error Handlers for AuthError
     
     # - 401
-    # @app.errorhandler(AuthError)
-    # def unauthorized(AuthError):
-    #     return jsonify({
-    #         "success": False,
-    #         "error": 401,
-    #         "message": "Unauthrized Access."
-    #     }), 401
+    @app.errorhandler(AuthError)
+    def unauthorized(AuthError):
+        return jsonify({
+            "success": False,
+            "error": 401,
+            "message": "Unauthrized Access."
+        }), 401
 
-    # # - 403
-    # @app.errorhandler(AuthError)
-    # def unauthorized(AuthError):
-    #     return jsonify({
-    #         "success": False,
-    #         "error": 403,
-    #         "message": "Access Denied."
-    #     }), 403
+    # - 403
+    @app.errorhandler(AuthError)
+    def unauthorized(AuthError):
+        return jsonify({
+            "success": False,
+            "error": 403,
+            "message": "Access Denied."
+        }), 403
 
     ##   Error Handlers for other expected errors
     # - 400
