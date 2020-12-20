@@ -6,8 +6,8 @@ import enum
 from datetime import datetime
 
 
-database_path = "postgres://fnjgmmspaqunqj:f3ab7d48ca7cbaf97303705311edde9f015a3d523bfd18188e2891513dcc5368@ec2-3-224-38-18.compute-1.amazonaws.com:5432/df85b4ac6ivn49"
-# database_path = os.environ['DATABASE_URL']
+# database_path = "postgres://fnjgmmspaqunqj:f3ab7d48ca7cbaf97303705311edde9f015a3d523bfd18188e2891513dcc5368@ec2-3-224-38-18.compute-1.amazonaws.com:5432/df85b4ac6ivn49"
+database_path = os.environ['DATABASE_URL']
 
 db = SQLAlchemy()
 
@@ -17,8 +17,8 @@ setup database :
 '''
 def setup_db(app, database_path=database_path):
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    # app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = os.environ['SQLALCHEMY_TRACK_MODIFICATIONS']
+    # app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = os.environ['SQLALCHEMY_TRACK_MODIFICATIONS']
     db.app = app
     db.init_app(app)
     db.create_all()
