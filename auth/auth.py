@@ -8,8 +8,11 @@ from urllib.request import urlopen
 
 # Basic configuration attributes for AUTH0 
 AUTH0_DOMAIN = os.environ['AUTH0_DOMAIN']
+# AUTH0_DOMAIN = 'wijdan-fsnd.eu.auth0.com'
 ALGORITHMS = os.environ['ALGORITHMS']
+# ALGORITHMS = ['RS256']
 API_AUDIENCE = os.environ['API_AUDIENCE']
+# API_AUDIENCE = 'movies'
 
 '''
 AuthError Exception : 
