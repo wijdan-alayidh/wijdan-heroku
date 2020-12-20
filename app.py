@@ -24,3 +24,8 @@ def create_app(test_config=None):
         return "Welcome to our app"
 
     return app
+
+app = create_app()
+
+if __name__ == '__main__':
+    app.run()
