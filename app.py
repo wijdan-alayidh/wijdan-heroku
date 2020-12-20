@@ -18,7 +18,7 @@ def create_app(test_config=None):
     CORS(app)
     db_drop_and_create_all()
 
-    @app.route('/', methods=['GET'])
+    @app.route('/',methods=['GET'])
     def main_page():
         
         return "Welcome to our app"
