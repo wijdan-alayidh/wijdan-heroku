@@ -8,6 +8,10 @@ The Casting Agency models a company that is responsible for creating movies and 
 
 ### https://wijdan-heroku.herokuapp.com/
 
+## Auth0 and test endpoints:
+
+This repo have a postman collection request to test all of the endpoints, this collection have the jwt token to check the endpoints
+
 
 ### Models:
 
