@@ -1,0 +1,208 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.4
+-- Dumped by pg_dump version 12.4
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: gender_choices; Type: TYPE; Schema: public; Owner: Wijdan
+--
+
+CREATE TYPE public.gender_choices AS ENUM (
+    'male',
+    'female',
+    'not_defined'
+);
+
+
+ALTER TYPE public.gender_choices OWNER TO "Wijdan";
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: actors; Type: TABLE; Schema: public; Owner: Wijdan
+--
+
+CREATE TABLE public.actors (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    age character varying,
+    gender character varying NOT NULL
+);
+
+
+ALTER TABLE public.actors OWNER TO "Wijdan";
+
+--
+-- Name: actors_id_seq; Type: SEQUENCE; Schema: public; Owner: Wijdan
+--
+
+CREATE SEQUENCE public.actors_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.actors_id_seq OWNER TO "Wijdan";
+
+--
+-- Name: actors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Wijdan
+--
+
+ALTER SEQUENCE public.actors_id_seq OWNED BY public.actors.id;
+
+
+--
+-- Name: movies; Type: TABLE; Schema: public; Owner: Wijdan
+--
+
+CREATE TABLE public.movies (
+    id integer NOT NULL,
+    title character varying NOT NULL,
+    relase_date date NOT NULL
+);
+
+
+ALTER TABLE public.movies OWNER TO "Wijdan";
+
+--
+-- Name: movies_id_seq; Type: SEQUENCE; Schema: public; Owner: Wijdan
+--
+
+CREATE SEQUENCE public.movies_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.movies_id_seq OWNER TO "Wijdan";
+
+--
+-- Name: movies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Wijdan
+--
+
+ALTER SEQUENCE public.movies_id_seq OWNED BY public.movies.id;
+
+
+--
+-- Name: actors id; Type: DEFAULT; Schema: public; Owner: Wijdan
+--
+
+ALTER TABLE ONLY public.actors ALTER COLUMN id SET DEFAULT nextval('public.actors_id_seq'::regclass);
+
+
+--
+-- Name: movies id; Type: DEFAULT; Schema: public; Owner: Wijdan
+--
+
+ALTER TABLE ONLY public.movies ALTER COLUMN id SET DEFAULT nextval('public.movies_id_seq'::regclass);
+
+
+--
+-- Data for Name: actors; Type: TABLE DATA; Schema: public; Owner: Wijdan
+--
+
+COPY public.actors (id, name, age, gender) FROM stdin;
+3	test	22	male
+4	test	22	male
+5	test	22	male
+6	test	22	male
+7	test	22	male
+8	test	22	male
+9	test	22	male
+10	test	22	male
+11	actor name	26	female
+1	new actor name	22	male
+12	actor name	26	female
+13	actor name	26	female
+14	actor name	26	female
+15	actor name	26	female
+16	actor name	26	female
+17	actor name	26	female
+18	actor name	26	female
+19	actor name	26	female
+20	actor name	26	female
+21	actor name	26	female
+22	actor name	26	female
+23	actor name	26	female
+24	actor name	26	female
+25	actor name	26	female
+26	actor name	26	female
+27	actor name	26	female
+\.
+
+
+--
+-- Data for Name: movies; Type: TABLE DATA; Schema: public; Owner: Wijdan
+--
+
+COPY public.movies (id, title, relase_date) FROM stdin;
+2	new movie	2021-11-11
+3	new movie	2021-11-11
+4	new movie	2021-11-11
+5	new movie	2021-11-11
+6	new movie	2021-11-11
+8	new movie	2021-11-11
+9	new movie	2021-11-11
+10	new movie	2021-11-11
+7	new title form test	2021-11-11
+18	new movie	2021-11-11
+19	new movie from test	2021-11-11
+20	new movie from test	2021-11-11
+\.
+
+
+--
+-- Name: actors_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Wijdan
+--
+
+SELECT pg_catalog.setval('public.actors_id_seq', 27, true);
+
+
+--
+-- Name: movies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Wijdan
+--
+
+SELECT pg_catalog.setval('public.movies_id_seq', 20, true);
+
+
+--
+-- Name: actors actors_pkey; Type: CONSTRAINT; Schema: public; Owner: Wijdan
+--
+
+ALTER TABLE ONLY public.actors
+    ADD CONSTRAINT actors_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: movies movies_pkey; Type: CONSTRAINT; Schema: public; Owner: Wijdan
+--
+
+ALTER TABLE ONLY public.movies
+    ADD CONSTRAINT movies_pkey PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
