@@ -5,16 +5,16 @@ import json
 import enum
 from datetime import datetime
 
-
-# database_path = "postgres://fnjgmmspaqunqj:f3ab7d48ca7cbaf97303705311edde9f015a3d523bfd18188e2891513dcc5368@ec2-3-224-38-18.compute-1.amazonaws.com:5432/df85b4ac6ivn49"
 database_path = os.environ['DATABASE_URL']
 
 db = SQLAlchemy()
 
 '''
 setup database :
-    binds a flask application and SQLAlchemy service 
+    binds a flask application and SQLAlchemy service
 '''
+
+
 def setup_db(app, database_path=database_path):
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
     # app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -23,38 +23,46 @@ def setup_db(app, database_path=database_path):
     db.init_app(app)
     db.create_all()
 
+
 def db_drop_and_create_all():
     # db.drop_all()
     db.create_all()
 
 
 '''
-Association table to make the many to many relationship between Movies & Actors class
+Association table to make the many to many,
+relationship between Movies & Actors class
 '''
+
 # association = db.Table('association',
-#                           db.Column('movie_id', db.Integer, db.ForeignKey('movies.id'), primary_key=True),
-#                           db.Column('actor_id', db.Integer, db.ForeignKey('actors.id'), primary_key=True)
-#                           )
+#                         db.Column('movie_id', db.Integer,
+#                         db.ForeignKey('movies.id'), primary_key=True),
+#                         db.Column('actor_id', db.Integer,
+#                         db.ForeignKey('actors.id'), primary_key=True)
+# )
 
 
 '''
 Movies Model
 '''
 
+
 class Movies(db.Model):
     __tablename__ = 'movies'
 
-    id = Column(Integer, primary_key = True)
-    title = Column(String, nullable = False)
-    relase_date = Column(Date, nullable = False)
-    # actors = db.relationship('Actors', secondary = association, backref = 'actors')
+    id = Column(Integer, primary_key=True)
+    title = Column(String, nullable=False)
+    relase_date = Column(Date, nullable=False)
+    # actors = db.relationship('Actors',
+    #                         secondary = association,
+    #                         backref = 'actors')
 
     def __init__(self, title, relase_date):
         self.title = title
         self.relase_date = relase_date
         # self.actors = actors
 
-    # This function for define the the representation format from this Model 
+    # This function for define the the representation format from this Model
     def format(self):
         return {
             'id': self.id,
@@ -62,7 +70,7 @@ class Movies(db.Model):
             'relase_date': self.relase_date.strftime('%m-%d-%Y')
 
         }
-    
+
     # This function to insert new record into the table
     def insert(self):
         db.session.add(self)
@@ -77,33 +85,40 @@ class Movies(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+
 '''
 This class to use it in gender column to selecte between available choices
     -- Male
     -- Female
-    -- Undefined 
+    -- Undefined
 '''
+
 
 class Gender_choices(enum.Enum):
     male = 'Male'
     female = 'Female'
     not_defined = 'Undefined'
 
+
 '''
 Actors Model
 '''
 
+
 class Actors(db.Model):
     __tablename__ = 'actors'
 
-    id = Column(Integer, primary_key = True)
-    name = Column(String, nullable = False)
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
     age = Column(String)
-    # Here use the Enum and Gender_choices class to make the choices available to select between it
+    # Here use the Enum and Gender_choices class to make the choices available
+    # to select between it
     gender = Column(String, db.Enum(Gender_choices),
-                            default = Gender_choices.not_defined,
-                            nullable = False)
-    # movies = db.relationship('Movies', secondary = association, backref = 'movies')
+                    default=Gender_choices.not_defined,
+                    nullable=False)
+    # movies = db.relationship('Movies',
+    #                           secondary = association,
+    #                           backref = 'movies')
 
     def __init__(self, name, age, gender):
         self.name = name
@@ -111,7 +126,7 @@ class Actors(db.Model):
         self.gender = gender
         # self.movies = movies
 
-    # This function for define the the representation format from this Model 
+    # This function for define the the representation format from this Model
     def format(self):
         return {
             'id': self.id,
