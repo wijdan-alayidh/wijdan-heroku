@@ -75,7 +75,7 @@ To run the server, execute:
 ```bash
 export FLASK_APP=app
 export FLASK_ENV=development
-flask run
+flask run --reload
 ```
 
 Setting the `FLASK_ENV` variable to `development` will detect file changes and restart the server automatically.
